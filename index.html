@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Eet.Nu API</title>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- CSS -->
+
+
+        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/eetstyle.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" />
+
+        <!-- JQUERY -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript">
+    $(document).bind('mobileinit',function(){
+        $.mobile.changePage.defaults.changeHash = false;
+        $.mobile.hashListeningEnabled = false;
+        $.mobile.pushStateEnabled = false;
+    });
+</script>
+        <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    </head>
+    <body>
+        <div id="home" data-role="page">
+            <div data-role="panel" id="menu" data-display="overlay" data-theme="a">
+                <ul data-role="listview">
+                    <li data-icon="gear"><a id="settingslink" href="#settings" data-transition="slide">Instellingen</a></li>
+                    <div data-role="fieldcontain" class="tags">
+                    </div>
+                </ul>
+            </div>
+            <div data-role="header" data-theme="a">
+                <a id="lnkPanelMenu" href="#" data-icon="gear" data-iconpos="notext"></a>
+                <h1 class="ui-title"></h1>
+            </div>
+            <div data-role="content" id="content">
+                <input id="txtSearch" />
+                <button id="btnSearch" data-theme="a">Zoeken</button>
+                <ul id="restaurantlist" data-role="listview" data-inset="true">
+                </ul>
+            </div>
+        </div>
+
+        <div id="settings" data-role="page">
+            <div data-role="header" data-theme="a">
+                <a data-role="button" data-direction="reverse" data-rel="back" href="#home" data-icon="back" data-iconpos="left">
+                    Terug
+                </a>
+                <h1 class="ui-title"></h1>
+            </div>
+            <div data-role="content" id="content">
+                <a id="save" data-role="button" data-mini="true" data-inline="true">Save</a>
+                <h3>Instellingen</h3>
+                <p>Hier kan je de settings van de app wijzigen. Mocht je nog bepaalde suggesties hebben dan kan je ze altijd mailen naar mmaa.schuurmans@avans.nl</p>
+                <form id="settingsForm">
+                    <div data-role="fieldcontain">
+                        <h4>Maximale afstand:</h4>
+                        <p>Dit is de maximale afstand waarmee rekening gehouden wordt bij het zoeken naar eetgelegenheden.<br/>
+                        Bijvoorbeeld wanneer je hier 10 invult zal er gezocht worden binnen een straal van 10km en zal de rest buiten beschouwing gelaten worden. Wanneer je hier niets invult zullen alle afstanden gebruikt worden.
+                        Let op: Hier moet wel je GPS voor aan staan.</p>
+                        <input type="range" id="distance" data-highlight="true" min="1" max="50" class="ui-hidden-accessible"/>
+                    </div>
+                     <div data-role="fieldcontain">
+                        <h4>Sorteren:</h4>
+                        <p>We kunnen de resultaten sorteren voor je. Je kan sorteren op afstand, rating en reviews. <br />
+                        Wanneer je sorteert op afstand zullen de resultaten van dichtbij naar ver weg gesorteerd worden.<br />
+                        Wannneer je sorteert op rating zullen de resultaten met de beste rating bovenaan komen.<br />
+                        Ten slotte, wanneer je sorteert op reviews zullen de resultaten met de meeste reviews bovenaan komen, dit wil echter niet zeggen dat zij ook de beste reviews hebben.</p>
+                        <select name="sortby" id="sortby">
+                           <option value="distance">Afstand</option>
+                           <option value="rating">Rating</option>
+                           <option value="reviews">Reviews</option>
+                        </select>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <h4>Filter op rating:</h4>
+                        <p>Wanneer je wilt filteren op restaurants is het mogelijk om te filteren op een rating. Restaurants zonder een rating worden dan niet meer weergegeven, maar als ze reviews hebben dan worden ze nog wel weergegeven.</p>
+                        <select name="filterOnRating" id="filterOnRating">
+                           <option value="true">True</option>
+                           <option value="false">False</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="detail" data-role="page">
+            <input type="hidden" id="id_next" value=""/>
+            <input type="hidden" id="id_previous" value=""/>
+
+            <div data-role="header" data-theme="a">
+                <a data-role="button" data-rel="back" href="#home" data-icon="back" data-iconpos="left">Vorige</a>
+                <h1 class="ui-title"></h1>
+                <a id="btnNextDetails" data-role="button" href="#details" data-icon="forward" data-iconpos="right">Volgende</a>
+            </div>
+            <div data-role="content" id="content">
+                <div data-role='tabs'>
+                    <div data-role="navbar">
+                        <ul>
+                          <li><a href="#mainDetails" data-ajax="false">Details</a></li>
+                          <li><a href="#reviewContent" data-theme="a" data-ajax="false">Reviews</a></li>
+                        </ul>
+                    </div>
+                    <div class="ui-content" id="mainDetails">
+                        <h3 id="name"></h3>
+                        <div id="description" class="ui-grid-solo">
+                            <p></p>
+                        </div>
+                        <div id="images"></div>
+                        <div id="address">
+                            <h4>Adres</h4>
+                            <p id="street"></p>
+                            <p id="zipcode_place"></p>
+                            <p id="country"></p>
+                        </div>
+                        <div id="contact">
+                                <h4>Contact</h4>
+                                <p><a id="telephone" href="#"></a></p>
+                                <p id="restaurant_url"><a id="own_url"  href="#" ></a></p>
+                                <p><a id="eetnu_url" href="#" onclick=""><i class="fa fa-globe"></i> Eet.Nu</a></p>
+                        </div>
+
+                        <div id="opentime" class="ui-grid-solo">
+                            <h4>Open / Gesloten</h4>
+                            <table>
+                                <tr><td><span class='ui-btn-icon-notext'></span></td><th class="day">Ma</th><td class="time" id="day_0"></td></tr>
+                                <tr><td><span class='ui-btn-icon-notext'></span></td><th class="day">Di</th><td class="time" id="day_1"></td></tr>
+                                <tr><td><span class='ui-btn-icon-notext'></span></td><th class="day">Wo</th><td class="time" id="day_2"></td></tr>
+                                <tr><td><span class='ui-btn-icon-notext'></span></td><th class="day">Do</th><td class="time" id="day_3"></td></tr>
+                                <tr><td><span class='ui-btn-icon-notext'></span></td><th class="day">Vr</th><td class="time" id="day_4"></td></tr>
+                                <tr><td><span class='ui-btn-icon-notext'></span></td><th class="day">Za</th><td class="time" id="day_5"></td></tr>
+                                <tr><td><span class='ui-btn-icon-notext'></span></td><th class="day">Zo</th><td class="time" id="day_6"></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="reviewContent" class="ui-content">
+                        <div id="ratings">
+                            
+                            <table class="ui-responsive">
+                                <tr><td colspan="2"><strong>Beoordelingen</strong></td></tr>
+                                <tr><td>Eet.nu rating</td><td id="eetnu"></td></tr>
+                                <tr><td>Algemeen</td><td id="rating"></td></tr>
+                                <tr><td>Sfeer</td><td id="ambiance"></td></tr>
+                                <tr><td>Eten</td><td id="food"></td></tr>
+                                <tr><td>Service</td><td id="service"></td></tr>
+                                <tr><td>Prijs/Kwaliteit</td><td id="value"></td></tr>
+                            </table>
+                        </div>
+                        <ul id="reviewList" data-role="listview">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>

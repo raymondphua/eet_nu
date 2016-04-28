@@ -1,0 +1,37 @@
+.ui-header .ui-title {
+    background:url(https://d1nhstnts0iwzs.cloudfront.net/assets/eet-nu/logo-de30a27783a298b1ba62b6e137674c48.png) no-repeat 0 0;
+    height:30px;
+    text-indent: -9999em;
+    width: 100px;
+    padding:5px !important;
+    font-size: 1em;
+	min-height: 1.1em;
+	text-align: center;
+	display: block;
+	margin: 0 35%;
+	margin-top:5px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	outline: 0 !important;
+}
+
+#save { float: right;}
+
+#images img { max-height: 300px; min-height: 100px; }
+#images { text-align: center; min-height: 100px; }
+
+#ratings { margin-bottom: 1em; }
+
+#opentime td { position: relative; }
+
+#lnkPanelMenu {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    left: 18px;
+}
+
+#opentime .ui-btn-icon-notext {
+    margin-left: 15px;
+}
