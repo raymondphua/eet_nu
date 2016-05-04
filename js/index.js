@@ -35,6 +35,9 @@ function buildVenuesUris(settings){
     var uriResults = [];
     var uri = 'https://api.eet.nu/venues';
 
+    //sort by ALWAYS works
+    uri += '?sort_by=' + window.localStorage.getItem("sortby");
+
     var qm = function(){
         if(uri.indexOf('?') < 0) { 
             uri += '?'; 
@@ -185,6 +188,7 @@ function loadTags(){
 
 function loadVenues(){
     var settings = { query: $('#txtSearch').val() };
+    var resultList = [];
 
     if(currentPosition){
         settings.lat = currentPosition.coords.latitude;
@@ -201,9 +205,10 @@ function loadVenues(){
     var list = $('#restaurantlist');
     list.html('');
 
-    var filterOnRating = window.localStorage.getItem('filterOnRating') == 'True';
+    var filterOnRating = window.localStorage.getItem('filterOnRating') == 'true';
 
     var uris = buildVenuesUris(settings);
+    console.log(uris);
     uris.forEach(function(uri){
         $.getJSON(uri, function(json){
             json.results.forEach(function(item){
@@ -213,8 +218,13 @@ function loadVenues(){
                         + item.name + 
                         '</a></li>');
                 }
+                resultList.push(item);
             });
 
+            console.log(resultList);
+            if (resultList.length === 0) {
+                list.append('<li>Er zijn geen resultaten gevonden</li>')
+            }
             list.listview('refresh');
         });
     });
