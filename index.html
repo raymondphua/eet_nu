@@ -8,8 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- CSS -->
-
-
         <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/index.css" />
@@ -61,33 +59,25 @@
                 <p>Hier kan je de settings van de app wijzigen. Mocht je nog bepaalde suggesties hebben dan kan je ze altijd mailen naar mmaa.schuurmans@avans.nl</p>
                 <form id="settingsForm">
                     <div data-role="fieldcontain">
-                        <h4>Maximale afstand:</h4>
-                        <p>Dit is de maximale afstand waarmee rekening gehouden wordt bij het zoeken naar eetgelegenheden.<br/>
-                        Bijvoorbeeld wanneer je hier 10 invult zal er gezocht worden binnen een straal van 10km en zal de rest buiten beschouwing gelaten worden. Wanneer je hier niets invult zullen alle afstanden gebruikt worden.
-                        Let op: Hier moet wel je GPS voor aan staan.</p>
-                        <input type="range" id="distance" data-highlight="true" min="1" max="50" class="ui-hidden-accessible"/>
+                        <h4>Maximale afstand (1 tot 50 Km):</h4>
+                            <input type="range" id="distance" data-highlight="true" min="1" max="50" class="ui-hidden-accessible"/>
                     </div>
-                     <div data-role="fieldcontain">
+                    <div data-role="fieldcontain">
                         <h4>Sorteren:</h4>
-                        <p>We kunnen de resultaten sorteren voor je. Je kan sorteren op afstand, rating en reviews. <br />
-                        Wanneer je sorteert op afstand zullen de resultaten van dichtbij naar ver weg gesorteerd worden.<br />
-                        Wannneer je sorteert op rating zullen de resultaten met de beste rating bovenaan komen.<br />
-                        Ten slotte, wanneer je sorteert op reviews zullen de resultaten met de meeste reviews bovenaan komen, dit wil echter niet zeggen dat zij ook de beste reviews hebben.</p>
                         <select name="sortby" id="sortby">
-                           <option value="distance">Afstand</option>
-                           <option value="rating">Rating</option>
-                           <option value="reviews">Reviews</option>
+                            <option value="distance">Dichtstbijzijnde eerst</option>
+                            <option value="rating">Best gewaardeerde eerst</option>
+                            <option value="reviews">Meest besproken eerst</option>
                         </select>
                     </div>
                     <div data-role="fieldcontain">
                         <h4>Filter op rating:</h4>
-                        <p>Wanneer je wilt filteren op restaurants is het mogelijk om te filteren op een rating. Restaurants zonder een rating worden dan niet meer weergegeven, maar als ze reviews hebben dan worden ze nog wel weergegeven.</p>
                         <select name="filterOnRating" id="filterOnRating">
-                           <option value="true">True</option>
-                           <option value="false">False</option>
+                            <option value="true">Laat alleen venues met rating of commentaar zien</option>
+                            <option value="false">Laat alles zien</option>
                         </select>
                     </div>
-                    <button id="save">Save</button>
+                    <button id="save" class="ui-btn-active">Save</button>
                 </form>
             </div>
         </div>
