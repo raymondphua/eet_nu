@@ -35,8 +35,12 @@ function buildVenuesUris(settings){
     var uriResults = [];
     var uri = 'https://api.eet.nu/venues';
 
-    //sort by ALWAYS works
-    uri += '?sort_by=' + window.localStorage.getItem("sortby");
+    console.log(settings);
+
+    if (!settings.id) {
+        //sort by ALWAYS works
+        uri += '?sort_by=' + window.localStorage.getItem("sortby");
+    }
 
     var qm = function(){
         if(uri.indexOf('?') < 0) { 
@@ -48,7 +52,7 @@ function buildVenuesUris(settings){
     };
 
     if(settings){
-        if(settings.id){ uri += '/' + settings.id; }
+        if(settings.id){ uri += '/' + settings.id; sort = false; }
         if(settings.subCollection) { uri += '/' + settings.subCollection; }
 
         if(settings.query) { qm(); uri += 'query=' + settings.query; }
@@ -240,6 +244,7 @@ function loadNextDetails(){
 
 function showDetails(json, slide_direction) {
     var uri = buildVenuesUris({ id: json.id });
+    console.log(uri);
     $.getJSON(uri, function(data) {
         // Title and Navigation
         $('#name').text(data.name);
@@ -339,7 +344,7 @@ function showOpeningHours(openingHours){
 
         if(v.closed == true) {
             $('#day_' + v.day).text("Closed");
-            iconSpan.addClass('ui-icon-delete');
+            //iconSpan.addClass('ui-icon-delete');
         } else {
             var start = "", end = "";
             if(v.lunch_from == null) { start = v.dinner_from; } else { start = v.lunch_from; }
@@ -361,12 +366,11 @@ function showOpeningHours(openingHours){
 
             if((now.getDay() == 0 && v.day != 7) // Zondag
                 || now.getDay() - 1 != v.day
-                || (start != '?' && now < openFrom)
-               || (end != '?' && now > closedFrom)) { 
-                iconSpan.addClass('ui-icon-delete'); 
+               ) {
+                //iconSpan.addClass('ui-icon-delete');
             }
             else { 
-                iconSpan.addClass('ui-icon-check'); 
+                iconSpan.addClass('ui-icon-arrow-r');
             }
         }
     });
